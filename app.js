@@ -1,17 +1,22 @@
-// load http module and use fs to access the file system
-var http = require('http'),
-    fs = require('fs');
+const http = require('http')
+const fs = require('fs')
+const url = require('url')
 
-// configure http server
+
 http.createServer(function (request, response) {
-  
-  // what's going on here?
-  fs.readFile('index.html', function readData(err, data) {
-    response.writeHead(200, {'Content-Type': 'text/html'});
-    response.end(data);
+    const query = url.parse(request.url, true)
+    const file = "." + query.pathname + ".html"
+    fs.readFile(file, function(err, data) {
+        if (err) {
+            response.writeHead(404, {'Content-Type' : 'text/html'})
+            return response.end(errorURL)
+        }
+        response.writeHead(200, {'Content-Type': 'text/html'});
+        response.write(data)
+        return response.end();
   })
   
-}).listen(8080, "127.0.0.1");
+}).listen(8080);
 
-// inform user what is happening
-console.log('Server running at http://127.0.0.1:8080/')
+
+console.log('Server running')
