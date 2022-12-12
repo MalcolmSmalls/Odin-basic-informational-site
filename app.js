@@ -5,7 +5,12 @@ const url = require('url')
 
 http.createServer(function (request, response) {
     const query = url.parse(request.url, true)
-    const file = "." + query.pathname + ".html"
+    let file = ''
+    if(query.pathname  === '/'){
+        file = './index.html'
+    }else{
+        file = "." + query.pathname + ".html"
+    }
     fs.readFile(file, function(err, data) {
         if (err) {
             response.writeHead(404, {'Content-Type' : 'text/html'})
