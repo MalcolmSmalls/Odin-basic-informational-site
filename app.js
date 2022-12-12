@@ -9,7 +9,12 @@ http.createServer(function (request, response) {
     fs.readFile(file, function(err, data) {
         if (err) {
             response.writeHead(404, {'Content-Type' : 'text/html'})
-            return response.end(errorURL)
+            return response.end(
+                fs.readFileSync('./404.html', function(err, data){
+                    if (err) throw (err);
+                    return data
+                })
+            )
         }
         response.writeHead(200, {'Content-Type': 'text/html'});
         response.write(data)
