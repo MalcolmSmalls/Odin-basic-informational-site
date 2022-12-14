@@ -1,10 +1,18 @@
 const express = require("express")
 const app = express()
+const path = require('path')
 const port = 3000
+const members = require('./Members')
 
-app.get("/", (req, res) => {
-    res.send("Hello World! Working");
-});
+// app.get("/", (req, res) => {
+//     res.sendFile(path.join(__dirname, 'public', 'index.html' ))
+// });
+
+
+
+app.get('/api/members' , ( req, res ) => {
+    res.json(members)
+})
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
