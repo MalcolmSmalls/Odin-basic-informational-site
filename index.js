@@ -2,21 +2,24 @@ const express = require("express")
 const app = express()
 const path = require('path')
 const port = 3000
-const members = require('./Members')
 const logger = (req, res, next) => {
-    console.log('YURRRRP')
+    // req.protocol = gets http, req.get('host') = gets host, req.originalUrl = gets page.
+    console.log(`${req.protocol}://${req.get('host')}${req.originalUrl}`)
     next()
 }
+
+app.use(express.json())
+app.use(express.urlencoded({extended:false}))
 
 // app.get("/", (req, res) => {
 //     res.sendFile(path.join(__dirname, 'public', 'index.html' ))
 // });
 
-app.use(logger)
+// app.use(logger)
 
-app.get('/api/members' , ( req, res ) => {
-    res.json(members)
-})
+app.use('/api/members', require('./routes/api/members'))
+
+
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
