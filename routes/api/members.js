@@ -33,7 +33,8 @@ router.post('/', (req, res) => {
     }
 
     members.push(newMember)
-    res.json(members)
+    // res.json(members)
+    res.redirect('/')
 }) 
 
 
@@ -67,7 +68,7 @@ router.delete('/:id', (req, res) => {
     const found = members.some(member => member.id === parseInt(req.params.id))
 
     if(found){
-       json.res({
+       res.json({
         msg: `Member deleted`,
         members: members.filter(member => member.id !== parseInt(req.params.id))})
     } else {
